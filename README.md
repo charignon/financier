@@ -49,7 +49,7 @@ python examples/example1.py
 ```
 ## Usage
 
-See blog post: XXX
+See my [blog post](https://blog.laurentcharignon.com/post/financier-modeling-compensation-python/) for more information.
 
 ## Contributing
 ### Running the tests
