@@ -2,7 +2,28 @@
 
 Model compensation packages with python. Can be useful to compare job offers.
 
-![](./financier.png)
+```python
+HOOLI = Offer(
+    'Hooli',
+    Salary(yearly_amount=15000),
+    StockGrant(
+        amount=10000,
+        schedule=FourYearsScheduleOneYearCliff(
+            grant_date=datetime.date(2017, 2, 25)
+        )
+    ),
+    OneTimeBonus(amount=10000,
+                 payoff_date=datetime.date(2019, 3, 5)),
+    Match401k(yearly_income=15_0000,
+              match_percentage=0.03,
+              match_contribution_per_dollar=0.5),
+)
+
+plot_income(HOOLI.cummulative_income(
+    date_range=four_years_by_month()
+), "/tmp/hooli.png")
+```
+![Hooli offer cummulative income](/assets/hoolicum.png)
 
 ## Installation
 
