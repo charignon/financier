@@ -48,12 +48,12 @@ HOOLI = Offer(
 
 
 def main():
-    """Plot RAVIGA_VS_HOOLY to a file"""
-    plot_filename = "raviga_vs_hooly.png"
-    HOOLY.index = HOOLY.index.to_series().apply(lambda x:x.strftime("%b %y"))
+    """Plot RAVIGA_VS_HOOLI to a file"""
+    plot_filename = "raviga_vs_hooli.png"
+    HOOLI.index = HOOLI.index.to_series().apply(lambda x:x.strftime("%b %y"))
     RAVIGA.index = RAVIGA.index.to_series().apply(lambda x:x.strftime("%b %y"))
-    print(HOOLY)
-    plot_income(HOOLY["Hooly Gross Income"].to_frame("Hooly Gross Income").join(
+    print(HOOLI)
+    plot_income(HOOLI["Hooli Gross Income"].to_frame("Hooli Gross Income").join(
         RAVIGA["Raviga Gross Income"].to_frame("Raviga Gross Income")
     ), plot_filename)
     print(f"Check out {plot_filename}")
