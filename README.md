@@ -19,11 +19,11 @@ HOOLI = Offer(
               match_contribution_per_dollar=0.5),
 )
 
-plot_income(HOOLI.cummulative_income(
+plot_income(HOOLI.cumulative_income(
     date_range=four_years_by_month()
 ), "/tmp/hooli.png")
 ```
-![Hooli offer cummulative income](/assets/hoolicum.png)
+![Hooli offer cumulative income](/assets/hoolicum.png)
 
 ## Installation
 

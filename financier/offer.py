@@ -83,8 +83,8 @@ class Offer:
         index = pd.Series(date_range[:-1], name="Date")
         return pd.Series(aggregate_income, index).to_frame(self.series_name)
 
-    def cummulative_income(self, date_range):
-        """Return income dataframe cummulative by period over date_range"""
+    def cumulative_income(self, date_range):
+        """Return income dataframe cumulative by period over date_range"""
         return self.income(agg_fn=np.cumsum, date_range=date_range)
 
 
