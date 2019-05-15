@@ -38,14 +38,13 @@ git clone git@github.com:charignon/financier
 cd financier
 python3 -m venv .
 source bin/activate
-source bin/activate
 pip install -r requirements.txt
 ```
 
 ### Run the example:
 
 ```shell
-python examples/example1.py
+PYTHONPATH=.:$PYTHONPATH vim examples/example1.py
 ```
 ## Usage
 
