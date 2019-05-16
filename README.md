@@ -44,7 +44,7 @@ pip install -r requirements.txt
 ### Run the example:
 
 ```shell
-PYTHONPATH=.:$PYTHONPATH vim examples/example1.py
+PYTHONPATH=.:$PYTHONPATH python examples/example1.py
 ```
 ## Usage
 
