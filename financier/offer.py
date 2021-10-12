@@ -91,7 +91,6 @@ class Offer:
 def plot_income(df, fname=None):
     """Plot an offer df, if fname is None save to a file named fname"""
     import matplotlib
-    matplotlib.use('Agg')
     from matplotlib import pyplot as plt
     ax = df.plot(kind="bar", figsize=(20, 6), fontsize=15)
     ax.set_yticks((range(0, int(df.max()[0]), 50000)), minor=True)
