@@ -7,6 +7,7 @@ from financier import (
 )
 from financier.components import (
     FourYearsScheduleOneYearCliff,
+    PeriodicBonus,
     Salary,
     StockGrant,
 )
@@ -15,6 +16,9 @@ from financier.components import (
 RAVIGA = Offer(
     'Raviga',
     Salary(yearly_amount=5000),
+    PeriodicBonus(amount=10000,
+                  name="Wellness budget",
+                  date_seq=[datetime.date(2017,8,8)]),
     StockGrant(
         amount=40000,
         schedule=FourYearsScheduleOneYearCliff(

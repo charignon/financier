@@ -6,8 +6,10 @@ class Match401k(DailyReward):
             self,
             yearly_income,
             match_percentage,
-            match_contribution_per_dollar
+            match_contribution_per_dollar,
+            **kwargs
     ):
+        DailyReward.__init__(self, **kwargs)
         self.yearly_amount = (
             yearly_income
             * match_percentage

@@ -1,5 +1,9 @@
-class OneTimeBonus:
-    def __init__(self, amount, payoff_date):
+from .component import Component
+
+
+class OneTimeBonus(Component):
+    def __init__(self, amount, payoff_date, **kwargs):
+        Component.__init__(self, **kwargs)
         self.amount = amount
         self.payoff_date = payoff_date
 

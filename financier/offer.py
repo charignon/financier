@@ -47,7 +47,10 @@ class Offer:
         res = []
         component_count = collections.Counter()
         for c in self.components:
-            n = self.name+" "+c.__class__.__name__
+            if hasattr(c, "name") and c.name is not None:
+                n = self.name + " " + c.name
+            else:
+                n = self.name + " " +c.__class__.__name__
             if n in component_count:
                 name = f"{n}_{component_count[n]}"
             else:

@@ -1,8 +1,8 @@
 """A stock Grant"""
 from bisect import bisect_left, bisect_right
+from .component import Component
 
-
-class StockGrant(object):
+class StockGrant(Component):
     def __init__(self, amount, schedule):
         self.amount = amount
         self.cliffs_sorted_by_date = [
