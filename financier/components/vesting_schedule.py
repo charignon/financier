@@ -63,6 +63,18 @@ class FourYearsScheduleOneYearCliff(BaseSchedule):
         self.subsequent_events_spacing_weeks = 13
         self.num_events = 13
 
+class OneYearsScheduleNoCliff(BaseSchedule):
+    """A 1-year stock grant with no cliff, vesting quarterly"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.first_event_date = (
+            self.grant_date + datetime.timedelta(weeks=13)
+        )
+        self.first_event_value = 1/4
+        self.subsequent_events_value = 1/4
+        self.subsequent_events_spacing_weeks = 13
+        self.num_events = 4
 
 class FourYearsScheduleNoCliff(BaseSchedule):
     """A 4-year stock grant with no vesting event"""
