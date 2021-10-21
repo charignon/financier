@@ -91,5 +91,5 @@ def test_plot_income():
     with tempfile.TemporaryDirectory() as tmpdirname:
         plot_filename = os.path.join(tmpdirname, "raviga_vs_hooly.png")
         plot_income(HOOLY.join(RAVIGA), plot_filename)
-        expected_md5 = "a84ee0855e859b9a7ad73521acc11929"
+        expected_md5 = "851b52467af0ac1a52a6073e6b84a1c1"
         assert md5_file(plot_filename) == expected_md5

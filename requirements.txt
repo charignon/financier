@@ -1,3 +1,5 @@
 pandas
 matplotlib
 notebook
+pytest
+pytest-cov

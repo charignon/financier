@@ -25,6 +25,9 @@ from .daily_reward import DailyReward
 from .stock_grant import StockGrant
 from .vesting_schedule import FourYearsScheduleOneYearCliff
 from .vesting_schedule import FourYearsScheduleNoCliff
+from .vesting_schedule import OneYearScheduleNoCliff
+from .vesting_schedule import OneYearScheduleWithCliff
 from .one_time_bonus import OneTimeBonus
 from .periodic_bonus import PeriodicBonus
 from .match401k import Match401k
+from .stock import Stock

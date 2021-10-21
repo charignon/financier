@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from financier.components import StockGrant
+from financier.components import Stock
 from financier.components import FourYearsScheduleOneYearCliff
 from financier.components import FourYearsScheduleNoCliff
 import datetime
@@ -41,3 +42,30 @@ def test_after_six_month_cliff():
     s = StockGrant(amount=800000, schedule=sched)
     e = grant_date + datetime.timedelta(weeks=26, days=1)
     assert s.value(grant_date, e) == 0
+
+def test_stock_value_no_growth():
+    s = Stock(
+        initial_value=100,
+        initial_value_date=datetime.date(2017,2,25),
+    )
+    assert s.value_at(datetime.date(2020,1,1)) == 100
+
+def test_stock_value_two_year_growth():
+    s = Stock(
+        initial_value=100,
+        yearly_multiplier=1.68,
+        initial_value_date=datetime.date(2017,2,25),
+    )
+    assert abs(
+        s.value_at(datetime.date(2019,2,25)) - 100*1.68*1.68
+    ) < 1
+
+def test_stock_value_six_month_growth():
+    s = Stock(
+        initial_value=100,
+        yearly_multiplier=1.68,
+        initial_value_date=datetime.date(2017,2,25),
+    )
+    assert abs(
+        s.value_at(datetime.date(2017,8,25)) - 129.3
+    ) < 1
