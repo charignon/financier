@@ -6,11 +6,18 @@ import tempfile
 
 from financier.offer import (
     Offer,
+)
+from financier.visualizer import (
+    plot_income,
+)
+
+from financier.calculator import (
+    Calculator,
     first_day_of_the_month,
     two_years_by_month,
     gen_intervals,
-    plot_income,
 )
+
 from financier.components import (
     Match401k,
     FourYearsScheduleOneYearCliff,
@@ -58,35 +65,37 @@ def test_value():
 
 
 def test_plot_income():
-    RAVIGA = Offer(
-        'Raviga',
-        Salary(yearly_amount=124000),
-        StockGrant(
-            amount=800000,
-            schedule=FourYearsScheduleOneYearCliff(
-                grant_date=date(2017, 2, 25)
-            )
+    c = Calculator()
+    RAVIGA = c.income(
+        offer = Offer(
+            'Raviga',
+            Salary(yearly_amount=124000),
+            StockGrant(
+                amount=800000,
+                schedule=FourYearsScheduleOneYearCliff(
+                    grant_date=date(2017, 2, 25)
+                )
+            ),
         ),
-    ).income(
         date_range=two_years_by_month()
     )
 
-    HOOLY = Offer(
-        'Hooly',
-        Salary(yearly_amount=150000),
-        StockGrant(
-            amount=83322,
-            schedule=FourYearsScheduleOneYearCliff(
-                grant_date=date(2017, 2, 25)
-            )
-        ),
-        OneTimeBonus(amount=10000,
-                     payoff_date=date(2019, 3, 15)),
-        Match401k(yearly_income=150000,
-                  match_percentage=0.03,
-                  match_contribution_per_dollar=0.5),
-    ).income(
-        date_range=two_years_by_month()
+    HOOLY = c.income(
+        offer = Offer(
+            'Hooly',
+            Salary(yearly_amount=150000),
+            StockGrant(
+                amount=83322,
+                schedule=FourYearsScheduleOneYearCliff(
+                    grant_date=date(2017, 2, 25)
+                )
+            ),
+            OneTimeBonus(amount=10000,
+                         payoff_date=date(2019, 3, 15)),
+            Match401k(yearly_income=150000,
+                      match_percentage=0.03,
+                      match_contribution_per_dollar=0.5),
+        ),date_range=two_years_by_month()
     )
     with tempfile.TemporaryDirectory() as tmpdirname:
         plot_filename = os.path.join(tmpdirname, "raviga_vs_hooly.png")

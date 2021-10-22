@@ -19,16 +19,20 @@ HOOLI = Offer(
               match_contribution_per_dollar=0.5),
 )
 
-plot_income(HOOLI.cumulative_income(
-    date_range=four_years_by_month()
-), "/tmp/hooli.png")
+plot_income(
+    Calculator.cummulative_income(
+        offer = HOOLI,
+        date_range=four_years_by_month()
+    ), "/tmp/hooli.png"
+)
 ```
 ![Hooli offer cumulative income](/assets/hoolicum.png)
 
 ## Installation
 
 ### Installing with pip
-TODO
+
+This package is not yet published via pypi.
 
 ### Manual installation from git
 
