@@ -1,0 +1,2 @@
+#!/bin/bash
+coverage run -m pytest --cov-report=term --cov=financier
