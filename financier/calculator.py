@@ -3,7 +3,7 @@
 # A calculator projects the income over a period of time
 from datetime import timedelta, date
 import pandas as pd
-
+import numpy as np
 
 def first_day_of_the_month(date):
     return date - timedelta(days=(date.day - 1))
@@ -63,4 +63,4 @@ class Calculator:
     @staticmethod
     def cumulative_income(offer, date_range):
         """Return income dataframe cumulative by period over date_range"""
-        return Calculator.income(agg_fn=np.cumsum, date_range=date_range)
+        return Calculator.income(offer, agg_fn=np.cumsum, date_range=date_range)
