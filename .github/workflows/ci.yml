@@ -23,6 +23,6 @@ jobs:
       - name: Run tests with pytest
         run: ./runtests
       - name: Run mypy
-        run: mypy --strict ./financier
+        run: poetry run mypy --strict ./financier
       - name: Run black
-        run: black --check ./financier
+        run: poetry run black --check ./financier

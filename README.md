@@ -5,7 +5,7 @@ Model compensation packages with python. Can be useful to compare job offers.
 ```python
 HOOLI = Offer(
     'Hooli',
-    Salary(yearly_amount=15000),
+    [Salary(yearly_amount=15000),
     StockGrant(
         amount=10000,
         schedule=FourYearsScheduleOneYearCliff(
@@ -16,7 +16,7 @@ HOOLI = Offer(
                  payoff_date=datetime.date(2019, 3, 5)),
     Match401k(yearly_income=15_0000,
               match_percentage=0.03,
-              match_contribution_per_dollar=0.5),
+              match_contribution_per_dollar=0.5)],
 )
 
 plot_income(
@@ -40,15 +40,14 @@ Clone the repo and set up a virtualenv:
 ```shell
 git clone git@github.com:charignon/financier
 cd financier
-python3 -m venv .
-source bin/activate
-pip install -r requirements.txt
+pip3 install poetry
+poetry install
 ```
 
 ### Run the example:
 
 ```shell
-PYTHONPATH=.:$PYTHONPATH python examples/example1.py
+poetry run examples/example1.py
 ```
 ## Usage
 
@@ -58,7 +57,7 @@ See my [blog post](https://blog.laurentcharignon.com/post/financier-modeling-com
 ### Running the tests
 
 ```shell
-py.test
+poetry run py.test
 ```
 ## Origin of the name financier
 
