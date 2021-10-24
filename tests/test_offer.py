@@ -20,7 +20,7 @@ from financier.calculator import (
 
 from financier.components import (
     Match401k,
-    FourYearsScheduleOneYearCliff,
+    four_year_schedule_one_year_cliff,
     OneTimeBonus,
     Salary,
     StockGrant,
@@ -28,9 +28,9 @@ from financier.components import (
 
 
 def test_first_day_of_the_month():
-    assert (date(2019, 2, 1) == first_day_of_the_month(date(2019, 2, 10)))
-    assert (date(2019, 2, 1) == first_day_of_the_month(date(2019, 2, 1)))
-    assert (date(2019, 1, 1) == first_day_of_the_month(date(2019, 1, 31)))
+    assert date(2019, 2, 1) == first_day_of_the_month(date(2019, 2, 10))
+    assert date(2019, 2, 1) == first_day_of_the_month(date(2019, 2, 1))
+    assert date(2019, 1, 1) == first_day_of_the_month(date(2019, 1, 31))
 
 
 def test_two_years_by_month():
@@ -46,18 +46,14 @@ def test_gen_interval():
 
 def md5_file(fname):
     hasher = hashlib.md5()
-    with open(fname, 'rb') as afile:
+    with open(fname, "rb") as afile:
         buf = afile.read()
         hasher.update(buf)
     return hasher.hexdigest()
 
 
 def test_value():
-    offer = Offer(
-        'Raviga',
-        Salary(yearly_amount=36500),
-        Match401k(36500, 0.10, 1)
-    )
+    offer = Offer("Raviga", [Salary(yearly_amount=36500), Match401k(36500, 0.10, 1)])
 
     # (100 per day + 10 per day) x 10 == 1100
     # 10 dollar because 100 per day * 10% match
@@ -67,35 +63,41 @@ def test_value():
 def test_plot_income():
     c = Calculator()
     RAVIGA = c.income(
-        offer = Offer(
-            'Raviga',
-            Salary(yearly_amount=124000),
-            StockGrant(
-                amount=800000,
-                schedule=FourYearsScheduleOneYearCliff(
-                    grant_date=date(2017, 2, 25)
-                )
-            ),
+        offer=Offer(
+            "Raviga",
+            [
+                Salary(yearly_amount=124000),
+                StockGrant(
+                    amount=800000,
+                    schedule=four_year_schedule_one_year_cliff(
+                        grant_date=date(2017, 2, 25)
+                    ),
+                ),
+            ],
         ),
-        date_range=two_years_by_month()
+        date_range=two_years_by_month(),
     )
 
     HOOLY = c.income(
-        offer = Offer(
-            'Hooly',
-            Salary(yearly_amount=150000),
-            StockGrant(
-                amount=83322,
-                schedule=FourYearsScheduleOneYearCliff(
-                    grant_date=date(2017, 2, 25)
-                )
-            ),
-            OneTimeBonus(amount=10000,
-                         payoff_date=date(2019, 3, 15)),
-            Match401k(yearly_income=150000,
-                      match_percentage=0.03,
-                      match_contribution_per_dollar=0.5),
-        ),date_range=two_years_by_month()
+        offer=Offer(
+            "Hooly",
+            [
+                Salary(yearly_amount=150000),
+                StockGrant(
+                    amount=83322,
+                    schedule=four_year_schedule_one_year_cliff(
+                        grant_date=date(2017, 2, 25)
+                    ),
+                ),
+                OneTimeBonus(amount=10000, payoff_date=date(2019, 3, 15)),
+                Match401k(
+                    yearly_income=150000,
+                    match_percentage=0.03,
+                    match_contribution_per_dollar=0.5,
+                ),
+            ],
+        ),
+        date_range=two_years_by_month(),
     )
     with tempfile.TemporaryDirectory() as tmpdirname:
         plot_filename = os.path.join(tmpdirname, "raviga_vs_hooly.png")

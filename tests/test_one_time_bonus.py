@@ -5,12 +5,11 @@ from financier.components import OneTimeBonus
 
 def test_one_time_bonus_value():
     """Check that the value over date ranges is correct
-     Over 5 years, get the bonus, not more, only one week has the bonus"""
+    Over 5 years, get the bonus, not more, only one week has the bonus"""
     base_date = datetime.date(2018, 1, 1)
     payoff_date = datetime.date(2018, 6, 6)
     bonus_amount = 100000
-    bonus = OneTimeBonus(amount=bonus_amount,
-                         payoff_date=payoff_date)
+    bonus = OneTimeBonus(amount=bonus_amount, payoff_date=payoff_date)
 
     num_diff_zero = 0
     acc = 0

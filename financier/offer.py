@@ -1,30 +1,33 @@
-import pandas as pd
-import numpy as np
 import collections
-from .calculator import Calculator
+from dataclasses import dataclass
+import datetime
+from typing import List, Iterable
+
+from .components.component import Component
 
 
+@dataclass(frozen=True)
 class Offer:
-    def __init__(self, name, *components):
-        self.name = name
-        self.series_name = f"{self.name} Gross Income"
-        self.components = components
-        for c in components:
-            assert hasattr(c, "value"), f"{c} is not a component!"
+    name: str
+    components: Iterable[Component]
 
-    def value(self, start, finish):
+    @property
+    def series_name(self) -> str:
+        return f"{self.name} Gross Income"
+
+    def value(self, start: datetime.date, finish: datetime.date) -> float:
         """Value of the offer between start and finish"""
         return sum(c.value(start, finish) for c in self.components)
 
     @property
-    def components_pretty_name(self):
+    def components_pretty_name(self) -> List[str]:
         res = []
-        component_count = collections.Counter()
+        component_count: collections.Counter[str] = collections.Counter()
         for c in self.components:
             if hasattr(c, "name") and c.name is not None:
                 n = self.name + " " + c.name
             else:
-                n = self.name + " " +c.__class__.__name__
+                n = self.name + " " + c.__class__.__name__
             if n in component_count:
                 name = f"{n}_{component_count[n]}"
             else:

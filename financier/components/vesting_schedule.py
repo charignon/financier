@@ -1,101 +1,78 @@
 """Vesting schedules"""
 import datetime
+from dataclasses import dataclass
+from typing import List
 
 
+@dataclass(frozen=True)
 class VestingEvent:
-    def __init__(self, date, value):
-        self.date = date
-        self.value = value
+    date: datetime.date
+    value: float
 
 
-class BaseSchedule:
-    """Abstract a vesting schedule
-    You need to provide the following property when extending this class:
-    - first_event_date
-    - first_event_value
-    - subsequent_events_spacing_weeks
-    - subsequent_events_value
-    - num_events
-    """
-    def __init__(self, grant_date, *args, **kwargs):
-        self.grant_date = grant_date
-        self.first_event_value = None
-        self.first_event_date = None
-        self.subsequent_events_value = None
-        self.subsequent_events_spacing_weeks = None
-        self.num_events = None
+@dataclass(frozen=True)
+class Schedule:
+    grant_date: datetime.date
+    first_event_value: float
+    first_event_date: datetime.date
+    subsequent_events_value: float
+    subsequent_events_spacing_weeks: int
+    num_events: int
 
-    def nth_event(self, event_index):
-        """Return the nth event"""
-        if event_index == 0:
+    def nth_event(self, n: int) -> VestingEvent:
+        if n == 0:
             return VestingEvent(
-                date=self.first_event_date,
-                value=self.first_event_value
+                date=self.first_event_date, value=self.first_event_value
             )
 
-        delta = datetime.timedelta(
-            weeks=self.subsequent_events_spacing_weeks * event_index
-        )
+        delta = datetime.timedelta(weeks=self.subsequent_events_spacing_weeks * n)
         event_date = self.first_event_date + delta
-        return VestingEvent(
-            date=event_date,
-            value=self.subsequent_events_value
-        )
+        return VestingEvent(date=event_date, value=self.subsequent_events_value)
 
     @property
-    def vesting_events(self):
-        """Return the vesting events
-        Returns:
-          an iterable of events, that contain a date and value"""
+    def vesting_events(self) -> List[VestingEvent]:
         return [self.nth_event(n) for n in range(self.num_events)]
 
 
-class FourYearsScheduleOneYearCliff(BaseSchedule):
-    """A 4-year stock grant with one year vesting event"""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.first_event_date = (
-            self.grant_date + datetime.timedelta(weeks=52)
-        )
-        self.first_event_value = 1/4
-        self.subsequent_events_value = 1/16
-        self.subsequent_events_spacing_weeks = 13
-        self.num_events = 13
-
-class OneYearScheduleNoCliff(BaseSchedule):
-    """A 1-year stock grant with no cliff, vesting quarterly"""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.first_event_date = (
-            self.grant_date + datetime.timedelta(weeks=13)
-        )
-        self.first_event_value = 1/4
-        self.subsequent_events_value = 1/4
-        self.subsequent_events_spacing_weeks = 13
-        self.num_events = 4
-
-class OneYearScheduleWithCliff(BaseSchedule):
-    """A 1-year stock grant with one cliff"""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.first_event_date = (
-            self.grant_date + datetime.timedelta(weeks=52)
-        )
-        self.first_event_value = 1
-        self.num_events = 1
+def four_year_schedule_one_year_cliff(grant_date: datetime.date) -> Schedule:
+    return Schedule(
+        grant_date=grant_date,
+        first_event_date=grant_date + datetime.timedelta(weeks=52),
+        first_event_value=1 / 4,
+        subsequent_events_value=1 / 16,
+        subsequent_events_spacing_weeks=13,
+        num_events=13,
+    )
 
 
-class FourYearsScheduleNoCliff(BaseSchedule):
-    """A 4-year stock grant with no vesting event"""
+def one_year_schedule_no_cliff(grant_date: datetime.date) -> Schedule:
+    return Schedule(
+        grant_date=grant_date,
+        first_event_date=grant_date + datetime.timedelta(weeks=13),
+        first_event_value=1 / 4,
+        subsequent_events_value=1 / 4,
+        subsequent_events_spacing_weeks=13,
+        num_events=4,
+    )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.first_event_date = (
-            self.grant_date + datetime.timedelta(weeks=13)
-        )
-        self.first_event_value = 1/16
-        self.subsequent_events_value = 1/16
-        self.subsequent_events_spacing_weeks = 13
-        self.num_events = 16
+
+def one_year_schedule_one_year_cliff(grant_date: datetime.date) -> Schedule:
+    return Schedule(
+        grant_date=grant_date,
+        first_event_date=grant_date + datetime.timedelta(weeks=52),
+        first_event_value=1,
+        subsequent_events_value=0,
+        subsequent_events_spacing_weeks=0,
+        num_events=1,
+    )
+
+
+def four_year_schedule_no_cliff(grant_date: datetime.date) -> Schedule:
+    return Schedule(
+        grant_date=grant_date,
+        first_event_date=grant_date + datetime.timedelta(weeks=13),
+        first_event_value=1 / 16,
+        subsequent_events_value=1 / 16,
+        subsequent_events_spacing_weeks=13,
+        num_events=16,
+    )

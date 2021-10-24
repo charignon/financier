@@ -23,10 +23,12 @@ class OneTimeBonus:
 from .salary import Salary
 from .daily_reward import DailyReward
 from .stock_grant import StockGrant
-from .vesting_schedule import FourYearsScheduleOneYearCliff
-from .vesting_schedule import FourYearsScheduleNoCliff
-from .vesting_schedule import OneYearScheduleNoCliff
-from .vesting_schedule import OneYearScheduleWithCliff
+from .vesting_schedule import (
+    four_year_schedule_no_cliff,
+    four_year_schedule_one_year_cliff,
+    one_year_schedule_no_cliff,
+    one_year_schedule_one_year_cliff,
+)
 from .one_time_bonus import OneTimeBonus
 from .periodic_bonus import PeriodicBonus
 from .match401k import Match401k
