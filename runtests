@@ -1,2 +1,2 @@
 #!/bin/bash
-coverage run -m pytest --cov-report=term --cov=financier
+poetry run py.test --cov-report term --cov=financier

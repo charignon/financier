@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "financier"
+version = "0.1.0"
+description = "Model software engineer job offers in python"
+authors = ["Laurent Charignon <charignon@fastmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^1.3.4"
+matplotlib = "^3.4.3"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.910"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
